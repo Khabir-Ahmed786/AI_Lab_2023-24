@@ -1,99 +1,59 @@
-# Ex.No: 12  Planning –  Monkey Banana Problem
-### DATE:  28/10/24                                                                          
+# Ex.No: 13 Learning – Use Supervised Learning  
+### DATE:                                                                            
 ### REGISTER NUMBER : 212221040083
 ### AIM: 
-To find the sequence of plan for Monkey Banana problem using PDDL Editor.
+To write a program to train the classifier for -----------------.
 ###  Algorithm:
-Step 1:  Start the program <br> 
-Step 2 : Create a domain for Monkey Banana Problem. <br> 
-Step 3:  Create a domain by specifying predicates. <br> 
-Step 4: Specify the actions GOTO, CLIMB, PUSH-BOX, GET-KNIFE, GRAB-BANANAS in Monkey Banana problem.<br>  
-Step 5:   Define a problem for Monkey Banana problem.<br> 
-Step 6:  Obtain the plan for given problem.<br> 
-Step 7: Stop the program.<br> 
+
 ### Program:
 ```
-(define (domain monkey)
- (:requirements :strips)
- (:constants monkey box knife bananas glass waterfountain)
- (:predicates (location ?x)
- (on-floor)
- (at ?m ?x)
- (hasknife)
- (onbox ?x)
- (hasbananas)
- (hasglass)
- (haswater))
- ;; movement and climbing
- (:action GO-TO
- :parameters (?x ?y)
- :precondition (and (location ?x) (location ?y) (on-floor) (at monkey ?y))
- :effect (and (at monkey ?x) (not (at monkey ?y))))
- (:action CLIMB
- :parameters (?x)
- :precondition (and (location ?x) (at box ?x) (at monkey ?x))
- :effect (and (onbox ?x) (not (on-floor))))
- (:action PUSH-BOX
- :parameters (?x ?y)
- :precondition (and (location ?x) (location ?y) (at box ?y) (at monkey ?y)
- (on-floor))
- :effect (and (at monkey ?x) (not (at monkey ?y))
- (at box ?x) (not (at box ?y))))
- ;; getting bananas
- (:action GET-KNIFE
- :parameters (?y)
- :precondition (and (location ?y) (at knife ?y) (at monkey ?y))
- :effect (and (hasknife) (not (at knife ?y))))
- (:action GRAB-BANANAS
- :parameters (?y)
- :precondition (and (location ?y) (hasknife)
- (at bananas ?y) (onbox ?y)) 
-:effect (hasbananas))
- ;; getting water
- (:action PICKGLASS
- :parameters (?y)
- :precondition (and (location ?y) (at glass ?y) (at monkey ?y))
- :effect (and (hasglass) (not (at glass ?y))))
- (:action GETWATER
- :parameters (?y)
- :precondition (and (location ?y) (hasglass)
- (at waterfountain ?y)
- (at monkey ?y)
- (onbox ?y))
- :effect (haswater)))
+from google.colab import drive
+drive.mount('/content/gdrive')
+#import packages
+import numpy as np
+import pandas as pd
+pip install gradio
+import gradio as gr
+import pandas as pd
+cd /content/gdrive/MyDrive/demo/gradio_project-main
+data = pd.read_csv('diabetes.csv')
+data.head()
+print(data.columns)
+x = data.drop(['Outcome'], axis=1)
+y = data['Outcome']
+print(x[:5])
+from sklearn.model_selection import train_test_split
+x_train, x_test, y_train, y_test= train_test_split(x,y)
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+x_train_scaled = scaler.fit_transform(x_train)
+x_test_scaled = scaler.fit_transform(x_test)
+from sklearn.neural_network import MLPClassifier
+model = MLPClassifier(max_iter=1000, alpha=1)
+model.fit(x_train, y_train)
+print("Model Accuracy on training set:", model.score(x_train, y_train))
+print("Model Accuracy on Test Set:", model.score(x_test, y_test))
+print(data.columns)
+def diabetes(Pregnancies, Glucose, Blood_Pressure, SkinThickness, Insulin, BMI,Diabetes_Pedigree, Age):
+    x = np.array([Pregnancies,Glucose,Blood_Pressure,SkinThickness,Insulin,BMI,Diabetes_Pedigree,Age])
+    prediction = model.predict(x.reshape(1, -1))
+    if(prediction==0):
+      return "NO"
+    else:
+      return "YES"
+outputs = gr.Textbox()
+app = gr.Interface(fn=diabetes, inputs=['number','number','number','number','number','number','number','number'], outputs=outputs,description="Detection of Diabeties")
+app.launch(share=True)
 ```
+### Output:
+
+https://352a80ed64654063e9.gradio.live/
+
+![image](https://github.com/user-attachments/assets/2b652215-c532-4993-be9a-4546b4d57445)
 
 
 
-
-
-
-
-
-### Input 
-```
- (define (problem pb1)
- (:domain monkey)
- (:objects p1 p2 p3 p4 bananas monkey box knife)
- (:init (location p1)
- (location p2)
- (location p3)
- (location p4)
- (at monkey p1)
- (on-floor)
- (at box p2)
- (at bananas p3)
- (at knife p4)
- )
- (:goal (and (hasbananas)))
-) 
-```
-
-### Output/Plan:
-
-
-![image](https://github.com/user-attachments/assets/4cf72a67-e6d1-4b4b-bb0f-5c716009b63c)
 
 
 ### Result:
-Thus the plan was found for the initial and goal state of given problem.
+Thus the system was trained successfully and the prediction was carried out.
