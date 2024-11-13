@@ -1,8 +1,8 @@
-# Ex: 13 AI MINI PROJECT - TWITTER SENTIMENT ANALYSIS FOR ELECTRONIC PRODUCT SALE 
+# Ex: 13 AI MINI PROJECT - Smart Home Automation System
 ### DATE:   04/11/24                                                         
 ### REGISTER NUMBER : 212221040083
 ### AIM: 
-To develop a machine learning model to analyze public sentiment on Twitter regarding a specific electronic product sale. By gathering and analyzing tweets.
+To develop a machine learning model for Smart Home Automation System in Artifical Intelligence 
 
 ###  Algorithm:
 
